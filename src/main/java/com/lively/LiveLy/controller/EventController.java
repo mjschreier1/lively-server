@@ -14,30 +14,18 @@ import java.util.*;
 @RestController
 public class EventController {
 
-    int idCounter = 1;
-    final Map<Long, Event> map = new HashMap<>();
-
     @Autowired
     EventRepository eventRepository;
 
     @GetMapping("/events")
-    public Collection<Event> getEvents() {
-        return map.values();
+    public Iterable<Event> getEvents() {
+        return eventRepository.findAll();
     }
 
     @PostMapping("/events")
-    public Event addEvent(@RequestBody Map<String, String> req) {
-        Calendar start = Calendar.getInstance();
-        start.set(Calendar.YEAR, Integer.parseInt(req.get("start")));
-        start.set(Calendar.MONTH, Calendar.MAY);
-        start.set(Calendar.DAY_OF_MONTH, 20);
-        Calendar end = Calendar.getInstance();
-        end.set(Calendar.YEAR, Integer.parseInt(req.get("end")));
-        end.set(Calendar.MONTH, Calendar.MAY);
-        end.set(Calendar.DAY_OF_MONTH, 20);
-        Event event = new Event(start.getTime(), end.getTime(), req.get("name"), req.get("location"));
-        event.setId(idCounter++);
-        map.put(event.getId(), event);
-        return event;
+    public String addEvent(@RequestBody Map<String, String> req) {
+        Event event = new Event(req.get("start"), req.get("finish"), req.get("name"), req.get("location"));
+        eventRepository.save(event);
+        return "Success";
     }
 }

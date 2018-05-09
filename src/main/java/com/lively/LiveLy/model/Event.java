@@ -9,13 +9,13 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long id = 1;
 
     @Column(name = "start")
-    private Date start;
+    private String start;
 
-    @Column(name = "end")
-    private Date end;
+    @Column(name = "finish")
+    private String finish;
 
     @Column(name = "name")
     private String name;
@@ -23,35 +23,31 @@ public class Event {
     @Column
     private String location;
 
-    public Event(Date start, Date end, String name, String location) {
+    protected Event() {
+
+    }
+
+    public Event(String start, String finish, String name, String location) {
         this.start = start;
-        this.end = end;
+        this.finish = finish;
         this.name = name;
         this.location = location;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
-    public Date getEnd() {
-        return end;
+    public String getFinish() {
+        return finish;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setFinish(String finish) {
+        this.finish = finish;
     }
 
     public String getName() {
@@ -68,5 +64,16 @@ public class Event {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", start=" + start +
+                ", finish=" + finish +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                '}';
     }
 }
