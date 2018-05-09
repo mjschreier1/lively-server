@@ -10,10 +10,16 @@ buildscript {
 	}
 }
 
+//plugins {
+//    id "org.flywaydb.flyway" version "5.0.7"
+//    id "org.flywaydb.core"
+//}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'org.flywaydb.core'
 
 group = 'com.lively'
 version = '0.0.1-SNAPSHOT'
