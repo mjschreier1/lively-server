@@ -12,7 +12,6 @@ buildscript {
 
 //plugins {
 //    id "org.flywaydb.flyway" version "5.0.7"
-//    id "org.flywaydb.core"
 //}
 
 apply plugin: 'java'
@@ -34,6 +33,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+//    compile('org.flywaydb:flyway-core')
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

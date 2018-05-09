@@ -8,6 +8,7 @@
 //        flyway.setDataSource(System.getenv("JDBC_DATABASE_URL"),
 //                System.getenv("JDBC_DATABASE_USERNAME"),
 //                System.getenv("JDBC_DATABASE_PASSWORD"));
+//        flyway.baseline();
 //        flyway.migrate();
 //    }
 //}
