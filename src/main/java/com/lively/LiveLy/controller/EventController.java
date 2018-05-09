@@ -3,6 +3,7 @@ package com.lively.LiveLy.controller;
 import com.lively.LiveLy.model.Event;
 import com.lively.LiveLy.repo.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
@@ -13,6 +14,9 @@ import java.util.*;
 
 @RestController
 public class EventController {
+
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
 
     @Autowired
     EventRepository eventRepository;
@@ -42,4 +46,6 @@ public class EventController {
         eventRepository.save(event);
         return event.toString();
     }
+
+
 }
