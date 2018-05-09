@@ -1,6 +1,7 @@
 package com.lively.LiveLy.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -12,41 +13,45 @@ public class Event {
     private long id = 1;
 
     @Column(name = "start")
-    private String start;
+    private LocalDateTime start;
 
     @Column(name = "finish")
-    private String finish;
+    private LocalDateTime finish;
 
     @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "location")
     private String location;
+
+    @Column(name = "description")
+    private String description;
 
     protected Event() {
 
     }
 
-    public Event(String start, String finish, String name, String location) {
+    public Event(LocalDateTime start, LocalDateTime finish, String name, String location, String description) {
         this.start = start;
         this.finish = finish;
         this.name = name;
         this.location = location;
+        this.description = description;
     }
 
-    public String getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public String getFinish() {
+    public LocalDateTime getFinish() {
         return finish;
     }
 
-    public void setFinish(String finish) {
+    public void setFinish(LocalDateTime finish) {
         this.finish = finish;
     }
 
@@ -66,6 +71,14 @@ public class Event {
         this.location = location;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -74,6 +87,7 @@ public class Event {
                 ", finish=" + finish +
                 ", name='" + name + '\'' +
                 ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
