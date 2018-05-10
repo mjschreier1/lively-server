@@ -1,5 +1,6 @@
 package com.lively.LiveLy.controller;
 
+import com.lively.LiveLy.model.AuthenticatedUserResponse;
 import com.lively.LiveLy.model.User;
 import com.lively.LiveLy.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping("/users")
-    public ResponseEntity<User> getUser(@RequestParam("last") String last, @RequestParam("pin") String pin) {
+    public ResponseEntity<AuthenticatedUserResponse> getUser(@RequestParam("last") String last, @RequestParam("pin") String pin) {
         Iterable<User> lastNameMatches = userRepository.findAllByLast(last);
         long size = lastNameMatches.spliterator().getExactSizeIfKnown();
         if (size == 0) return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -34,7 +35,7 @@ public class UserController {
             }
         }
         if (recordFound) {
-            return new ResponseEntity<User>(targetUser, HttpStatus.OK);
+            return new ResponseEntity<AuthenticatedUserResponse>(new AuthenticatedUserResponse(true, targetUser.isAdmin()), HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

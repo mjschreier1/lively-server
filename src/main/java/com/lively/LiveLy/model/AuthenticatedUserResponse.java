@@ -2,11 +2,27 @@ package com.lively.LiveLy.model;
 
 public class AuthenticatedUserResponse {
 
-    boolean authenticated;
-    boolean isAdmin;
+    private boolean authenticated;
+    private boolean isAdmin;
 
     public AuthenticatedUserResponse(boolean authenticated, boolean isAdmin) {
         this.authenticated = authenticated;
         this.isAdmin = isAdmin;
+    }
+
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        this.authenticated = authenticated;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }
