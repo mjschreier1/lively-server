@@ -25,7 +25,7 @@ public class UserController {
         Iterable<User> lastNameMatches = userRepository.findAllByLast(last);
         long size = lastNameMatches.spliterator().getExactSizeIfKnown();
         if (size == 0) return new ResponseEntity(HttpStatus.NOT_FOUND);
-        User targetUser;
+        User targetUser = new User("", "", 0, false, "");
         boolean recordFound = false;
         for (User user:lastNameMatches) {
             if (user.getPin() == Integer.parseInt(pin)) {
