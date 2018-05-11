@@ -28,7 +28,7 @@ public class EventController {
     }
 
     @PostMapping("/events")
-    public String addEvent(
+    public Event addEvent(
             @RequestBody Map<String, String> details,
             @RequestParam("startYear") int startYear,
             @RequestParam("startMonth") int startMonth,
@@ -45,7 +45,7 @@ public class EventController {
 
         Event event = new Event(start, finish, details.get("name"), details.get("location"), details.get("description"));
         eventRepository.save(event);
-        return event.toString();
+        return event;
     }
 
 }
