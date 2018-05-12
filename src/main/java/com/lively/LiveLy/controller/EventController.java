@@ -24,7 +24,7 @@ public class EventController {
 
     @GetMapping("/events")
     public Iterable<Event> getEvents() {
-        return eventRepository.findByFinishAfter(LocalDateTime.now());
+        return eventRepository.findByFinishAfter(LocalDateTime.now().minusHours(6));
     }
 
     @PostMapping("/events")
