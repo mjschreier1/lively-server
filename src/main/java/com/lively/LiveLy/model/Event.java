@@ -39,6 +39,10 @@ public class Event {
         this.description = description;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public LocalDateTime getStart() {
         return start;
     }
