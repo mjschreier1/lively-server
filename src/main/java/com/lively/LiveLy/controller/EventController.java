@@ -1,5 +1,6 @@
 package com.lively.LiveLy.controller;
 
+import com.lively.LiveLy.model.DeleteEventResponse;
 import com.lively.LiveLy.model.Event;
 import com.lively.LiveLy.repo.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,12 @@ public class EventController {
         Event event = new Event(start, finish, details.get("name"), details.get("location"), details.get("description"));
         eventRepository.save(event);
         return event;
+    }
+
+    @DeleteMapping("/events/{id}")
+    public DeleteEventResponse deleteEvent(@PathVariable("id") long id) {
+        eventRepository.deleteById(id);
+        return new DeleteEventResponse(id, 200, "OK");
     }
 
 }
