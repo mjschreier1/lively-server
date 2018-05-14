@@ -43,6 +43,7 @@ public class ServiceRequestController {
 
     @PostMapping("/service")
     public ServiceRequest addServiceRequest(@RequestBody Map<String, String> body, HttpServletResponse response) {
+        System.out.println(body);
         ServiceRequest serviceRequest = new ServiceRequest(
                 userRepository.findById(Integer.parseInt(body.get("id"))),
                 body.get("unit"),
