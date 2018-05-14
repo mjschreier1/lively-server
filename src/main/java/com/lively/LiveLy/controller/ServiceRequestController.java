@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @CrossOrigin
@@ -24,7 +25,7 @@ public class ServiceRequestController {
     UserRepository userRepository;
 
     @PostMapping("/service")
-    public ServiceRequest addServiceRequest(@RequestBody Map<String, String> body) {
+    public ServiceRequest addServiceRequest(@RequestBody Map<String, String> body, HttpServletResponse response) {
         ServiceRequest serviceRequest = new ServiceRequest(
                 userRepository.findById(Integer.parseInt(body.get("id"))),
                 body.get("unit"),
@@ -34,6 +35,7 @@ public class ServiceRequestController {
                 true
                 );
         serviceRequestRepository.save(serviceRequest);
+        response.setStatus(201);
         return serviceRequest;
     }
 
