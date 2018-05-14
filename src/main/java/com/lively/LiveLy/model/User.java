@@ -1,6 +1,8 @@
 package com.lively.LiveLy.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +26,9 @@ public class User {
 
     @Column(name = "email")
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    private Set<ServiceRequest> serviceRequests = new HashSet<ServiceRequest>();
 
     protected User() {
     }
