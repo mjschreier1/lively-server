@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @CrossOrigin
@@ -42,9 +43,10 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String addUser(@RequestParam("admin") boolean admin, @RequestBody Map<String, String> payload) {
+    public String addUser(@RequestParam("admin") boolean admin, @RequestBody Map<String, String> payload, HttpServletResponse response) {
         User user = new User(payload.get("first"), payload.get("last"), Integer.parseInt(payload.get("pin")), admin, payload.get("email"));
         userRepository.save(user);
+        response.setStatus(201);
         return user.toString();
     }
 }

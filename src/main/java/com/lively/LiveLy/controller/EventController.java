@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -40,12 +41,14 @@ public class EventController {
             @RequestParam("finishMonth") int finishMonth,
             @RequestParam("finishDate") int finishDate,
             @RequestParam("finishHour") int finishHour,
-            @RequestParam("finishMinute") int finishMinute) {
+            @RequestParam("finishMinute") int finishMinute,
+            HttpServletResponse response) {
         LocalDateTime start = LocalDateTime.of(startYear, startMonth, startDate, startHour, startMinute);
         LocalDateTime finish = LocalDateTime.of(finishYear, finishMonth, finishDate, finishHour, finishMinute);
 
         Event event = new Event(start, finish, details.get("name"), details.get("location"), details.get("description"));
         eventRepository.save(event);
+        response.setStatus(201);
         return event;
     }
 

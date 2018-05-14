@@ -24,6 +24,11 @@ public class ServiceRequestController {
     @Autowired
     UserRepository userRepository;
 
+    @GetMapping("/service/{user_id}")
+    public Iterable<ServiceRequest> getServiceRequestsByUser(@PathVariable("user_id") long id) {
+        return serviceRequestRepository.findByUser(userRepository.findById(id));
+    }
+
     @PostMapping("/service")
     public ServiceRequest addServiceRequest(@RequestBody Map<String, String> body, HttpServletResponse response) {
         ServiceRequest serviceRequest = new ServiceRequest(
