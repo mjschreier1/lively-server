@@ -2,6 +2,7 @@ package com.lively.LiveLy.controller;
 
 import com.lively.LiveLy.model.DeleteAllServiceRequestsResponse;
 import com.lively.LiveLy.model.ServiceRequest;
+import com.lively.LiveLy.model.User;
 import com.lively.LiveLy.repo.ServiceRequestRepository;
 import com.lively.LiveLy.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,18 @@ public class ServiceRequestController {
 
     @GetMapping("/service/{user_id}")
     public Iterable<ServiceRequest> getServiceRequestsByUser(@PathVariable("user_id") long id) {
-        return serviceRequestRepository.findByUser(userRepository.findById(id));
+        Iterable<ServiceRequest> response = serviceRequestRepository.findByUser(userRepository.findById(id));
+        // remove user PIN from response
+        for(ServiceRequest serviceRequest:response) {
+            serviceRequest.setUser(new User(
+                    serviceRequest.getUser().getFirst(),
+                    serviceRequest.getUser().getLast(),
+                    0,
+                    serviceRequest.getUser().isAdmin(),
+                    serviceRequest.getUser().getEmail()
+            ));
+        }
+        return response;
     }
 
     @PostMapping("/service")
