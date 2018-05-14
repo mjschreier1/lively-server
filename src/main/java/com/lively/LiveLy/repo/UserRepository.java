@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     Iterable<User> findAllByLast(String last);
+    User findById(long id);
 }

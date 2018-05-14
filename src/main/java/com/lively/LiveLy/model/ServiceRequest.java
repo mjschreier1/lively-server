@@ -34,14 +34,13 @@ public class ServiceRequest {
     protected ServiceRequest() {
     }
 
-    public ServiceRequest(User user, String unit, String contact, String subject, String description, boolean open, String admin_notes) {
+    public ServiceRequest(User user, String unit, String contact, String subject, String description, boolean open) {
         this.user = user;
         this.unit = unit;
         this.contact = contact;
         this.subject = subject;
         this.description = description;
         this.open = open;
-        this.admin_notes = admin_notes;
     }
 
     public long getId() {
