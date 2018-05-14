@@ -41,6 +41,10 @@ public class User {
         this.email = email;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getFirst() {
         return first;
     }

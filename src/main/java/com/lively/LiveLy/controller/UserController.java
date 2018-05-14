@@ -36,7 +36,7 @@ public class UserController {
             }
         }
         if (recordFound) {
-            return new ResponseEntity<AuthenticatedUserResponse>(new AuthenticatedUserResponse(true, targetUser.isAdmin()), HttpStatus.OK);
+            return new ResponseEntity<AuthenticatedUserResponse>(new AuthenticatedUserResponse(targetUser.getId(), true, targetUser.isAdmin()), HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
