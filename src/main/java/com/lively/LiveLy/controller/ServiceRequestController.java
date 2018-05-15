@@ -79,10 +79,13 @@ public class ServiceRequestController {
 
     @PutMapping("/service")
     public ServiceRequest updateServiceRequest(@RequestBody Map<String, String> body) {
+        System.out.println(body);
         ServiceRequest serviceRequest = serviceRequestRepository.findById(Integer.parseInt(body.get("id")));
+        System.out.println(serviceRequest);
         serviceRequest.setAdmin_notes(body.get("admin_notes"));
         serviceRequest.setOpen(Boolean.parseBoolean(body.get("open")));
         serviceRequestRepository.save(serviceRequest);
+        System.out.println(serviceRequest);
         return serviceRequest;
     }
 
