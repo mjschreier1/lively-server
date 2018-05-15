@@ -44,11 +44,22 @@ public class ServiceRequestController {
 
     @GetMapping("/service/open")
     public Iterable<ServiceRequest> getOpenServiceRequests() {
-        return serviceRequestRepository.findByOpen(true);
+        Iterable<ServiceRequest> response = serviceRequestRepository.findByOpen(true);
+        // remove user PIN from response
+        for(ServiceRequest serviceRequest:response) {
+            serviceRequest.setUser(new User(
+                    serviceRequest.getUser().getFirst(),
+                    serviceRequest.getUser().getLast(),
+                    0,
+                    serviceRequest.getUser().isAdmin(),
+                    serviceRequest.getUser().getEmail()
+            ));
+        }
+        return response;
     }
 
     @PostMapping("/service")
-    public ServiceRequest addServiceRequest(@RequestBody Map<String, String> body, HttpServletResponse response) {
+    public ServiceRequest addServiceRequest(@RequestBody Map<String, String> body, HttpServletResponse http) {
         ServiceRequest serviceRequest = new ServiceRequest(
                 userRepository.findById(Integer.parseInt(body.get("userId"))),
                 body.get("unit"),
@@ -58,12 +69,20 @@ public class ServiceRequestController {
                 true
                 );
         serviceRequestRepository.save(serviceRequest);
-        response.setStatus(201);
+        http.setStatus(201);
+        // remove user PIN from response
+        serviceRequest.setUser(new User(
+                serviceRequest.getUser().getFirst(),
+                serviceRequest.getUser().getLast(),
+                0,
+                serviceRequest.getUser().isAdmin(),
+                serviceRequest.getUser().getEmail()
+        ));
         return serviceRequest;
     }
 
     @PostMapping("/service/admin")
-    public ServiceRequest addServiceRequestForResident(@RequestBody Map<String, String> body, HttpServletResponse response) {
+    public ServiceRequest addServiceRequestForResident(@RequestBody Map<String, String> body, HttpServletResponse http) {
         ServiceRequest serviceRequest = new ServiceRequest(
                 userRepository.findByLastAndEmail(body.get("last"), body.get("email")),
                 body.get("unit"),
@@ -73,7 +92,15 @@ public class ServiceRequestController {
                 true
         );
         serviceRequestRepository.save(serviceRequest);
-        response.setStatus(201);
+        http.setStatus(201);
+        // remove user PIN from response
+        serviceRequest.setUser(new User(
+                serviceRequest.getUser().getFirst(),
+                serviceRequest.getUser().getLast(),
+                0,
+                serviceRequest.getUser().isAdmin(),
+                serviceRequest.getUser().getEmail()
+        ));
         return serviceRequest;
     }
 
@@ -84,6 +111,14 @@ public class ServiceRequestController {
         serviceRequest.setAdmin_notes(body.get("admin_notes"));
         serviceRequest.setOpen(Boolean.parseBoolean(body.get("open")));
         serviceRequestRepository.save(serviceRequest);
+        // remove user PIN from response
+        serviceRequest.setUser(new User(
+                serviceRequest.getUser().getFirst(),
+                serviceRequest.getUser().getLast(),
+                0,
+                serviceRequest.getUser().isAdmin(),
+                serviceRequest.getUser().getEmail()
+        ));
         return serviceRequest;
     }
 
