@@ -49,4 +49,10 @@ public class UserController {
         response.setStatus(201);
         return user.toString();
     }
+
+    @DeleteMapping("/users/all")
+    public String deleteAllUsers() {
+        userRepository.deleteAll();
+        return "Successfully deleted all users!";
+    }
 }

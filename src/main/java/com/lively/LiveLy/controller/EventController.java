@@ -58,4 +58,10 @@ public class EventController {
         return new DeleteEventResponse(id, 200, "OK");
     }
 
+    @DeleteMapping("/events/all")
+    public String deleteAllEvents() {
+        eventRepository.deleteAll();
+        return "Successfully deleted all events!";
+    }
+
 }
