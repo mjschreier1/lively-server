@@ -47,7 +47,8 @@ public class UserController {
         User user = new User(payload.get("first"), payload.get("last"), Integer.parseInt(payload.get("pin")), admin, payload.get("email"));
         userRepository.save(user);
         response.setStatus(201);
-        return new AuthenticatedUserResponse(user.getId(), false, user.isAdmin());
+        User newUser = userRepository.findByLastAndEmail(payload.get("last"), payload.get("email"));
+        return new AuthenticatedUserResponse(newUser.getId(), false, newUser.isAdmin());
     }
 
     @DeleteMapping("/users/all")
