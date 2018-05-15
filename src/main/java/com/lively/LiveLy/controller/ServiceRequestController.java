@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Service;
 import java.util.Map;
 
 @CrossOrigin
@@ -39,6 +40,11 @@ public class ServiceRequestController {
             ));
         }
         return response;
+    }
+
+    @GetMapping("/service/open")
+    public Iterable<ServiceRequest> getOpenServiceRequests() {
+        return serviceRequestRepository.findByOpen(true);
     }
 
     @PostMapping("/service")
