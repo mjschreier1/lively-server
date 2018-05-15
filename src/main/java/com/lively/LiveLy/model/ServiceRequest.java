@@ -22,13 +22,13 @@ public class ServiceRequest {
     @Column(name = "subject")
     private String subject;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 
     @Column(name = "open")
     private boolean open;
 
-    @Column(name = "admin_notes")
+    @Column(name = "admin_notes", length = 1000)
     private String admin_notes;
 
     protected ServiceRequest() {
