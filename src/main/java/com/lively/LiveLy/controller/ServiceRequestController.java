@@ -77,6 +77,15 @@ public class ServiceRequestController {
         return serviceRequest;
     }
 
+    @PutMapping("/service")
+    public ServiceRequest updateServiceRequest(@RequestBody Map<String, String> body) {
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(Integer.parseInt(body.get("id")));
+        serviceRequest.setAdmin_notes(body.get("admin_notes"));
+        serviceRequest.setOpen(Boolean.parseBoolean(body.get("open")));
+        serviceRequestRepository.save(serviceRequest);
+        return serviceRequest;
+    }
+
     @DeleteMapping("/service/all")
     public DeleteAllServiceRequestsResponse deleteAllServiceRequests() {
         serviceRequestRepository.deleteAll();
