@@ -43,11 +43,11 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String addUser(@RequestParam("admin") boolean admin, @RequestBody Map<String, String> payload, HttpServletResponse response) {
+    public AuthenticatedUserResponse addUser(@RequestParam("admin") boolean admin, @RequestBody Map<String, String> payload, HttpServletResponse response) {
         User user = new User(payload.get("first"), payload.get("last"), Integer.parseInt(payload.get("pin")), admin, payload.get("email"));
         userRepository.save(user);
         response.setStatus(201);
-        return user.toString();
+        return new AuthenticatedUserResponse(user.getId(), false, user.isAdmin());
     }
 
     @DeleteMapping("/users/all")
