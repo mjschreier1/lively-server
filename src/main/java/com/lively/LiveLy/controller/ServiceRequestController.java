@@ -62,6 +62,21 @@ public class ServiceRequestController {
         return serviceRequest;
     }
 
+    @PostMapping("/service/admin")
+    public ServiceRequest addServiceRequestForResident(@RequestBody Map<String, String> body, HttpServletResponse response) {
+        ServiceRequest serviceRequest = new ServiceRequest(
+                userRepository.findByLastAndEmail(body.get("last"), body.get("email")),
+                body.get("unit"),
+                body.get("contact"),
+                body.get("subject"),
+                body.get("description"),
+                true
+        );
+        serviceRequestRepository.save(serviceRequest);
+        response.setStatus(201);
+        return serviceRequest;
+    }
+
     @DeleteMapping("/service/all")
     public DeleteAllServiceRequestsResponse deleteAllServiceRequests() {
         serviceRequestRepository.deleteAll();
