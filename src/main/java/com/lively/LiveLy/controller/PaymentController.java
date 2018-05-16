@@ -43,6 +43,9 @@ public class PaymentController {
 
         Iterable<Payment> matchingPayments = paymentRepository.findBySubmittedOnBetween(min, max);
 
+        System.out.println(min);
+        System.out.println(max);
+
         // removes user PIN from response
         for (Payment payment:matchingPayments) {
             payment.setUser(new User(
