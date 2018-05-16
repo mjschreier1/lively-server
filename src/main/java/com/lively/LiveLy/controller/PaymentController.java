@@ -38,8 +38,8 @@ public class PaymentController {
             @RequestParam("maxYear") int maxYear,
             @RequestParam("maxMonth") int maxMonth,
             @RequestParam("maxDate") int maxDate) {
-        LocalDateTime min = LocalDateTime.of(minYear, minMonth, minDate, 0, 0).minusHours(6);
-        LocalDateTime max = LocalDateTime.of(maxYear, maxMonth, maxDate, 0, 0).minusHours(6);
+        LocalDateTime min = LocalDateTime.of(minYear, minMonth, minDate, 0, 0);
+        LocalDateTime max = LocalDateTime.of(maxYear, maxMonth, maxDate + 1, 0, 0);
 
         Iterable<Payment> matchingPayments = paymentRepository.findBySubmittedOnBetween(min, max);
 
