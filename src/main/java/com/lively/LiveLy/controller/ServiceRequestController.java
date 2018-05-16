@@ -70,6 +70,7 @@ public class ServiceRequestController {
                 );
         serviceRequestRepository.save(serviceRequest);
         http.setStatus(201);
+        System.out.println(serviceRequest);
         // remove user PIN from response
         serviceRequest.setUser(new User(
                 serviceRequest.getUser().getFirst(),
@@ -78,6 +79,7 @@ public class ServiceRequestController {
                 serviceRequest.getUser().isAdmin(),
                 serviceRequest.getUser().getEmail()
         ));
+        System.out.println(serviceRequest);
         return serviceRequest;
     }
 
