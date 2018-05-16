@@ -21,7 +21,7 @@ public class Payment {
     private LocalDateTime submittedOn;
 
     @Column(name = "successful")
-    private boolean successful;
+    private Boolean successful;
 
     protected Payment() {
 
@@ -61,11 +61,11 @@ public class Payment {
         this.submittedOn = submittedOn;
     }
 
-    public boolean isSuccessful() {
+    public Boolean isSuccessful() {
         return successful;
     }
 
-    public void setSuccessful(boolean successful) {
+    public void setSuccessful(Boolean successful) {
         this.successful = successful;
     }
 }
