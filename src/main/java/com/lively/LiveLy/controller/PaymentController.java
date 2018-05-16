@@ -49,7 +49,7 @@ public class PaymentController {
         try {
             Charge charge = Charge.create(params);
         } catch (Exception err) {
-            System.out.println("Failed to process payment!");
+            System.out.println(err);
         }
         return payment;
     }
