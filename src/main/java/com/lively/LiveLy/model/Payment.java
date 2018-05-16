@@ -15,7 +15,7 @@ public class Payment {
     private User user;
 
     @Column(name = "amount")
-    private float amount;
+    private long amount;
 
     @Column(name = "submittedOn")
     private LocalDateTime submittedOn;
@@ -27,7 +27,7 @@ public class Payment {
 
     }
 
-    public Payment(User user, float amount, LocalDateTime submittedOn) {
+    public Payment(User user, long amount, LocalDateTime submittedOn) {
         this.user = user;
         this.amount = amount;
         this.submittedOn = submittedOn;
@@ -45,11 +45,11 @@ public class Payment {
         this.user = user;
     }
 
-    public float getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 

@@ -33,7 +33,7 @@ public class PaymentController {
     public ResponseEntity<Payment> submitPayment(@RequestBody Map<String, String> body) {
         Payment payment = new Payment(
                 userRepository.findById(Integer.parseInt(body.get("id"))),
-                Float.parseFloat(body.get("amount")),
+                Long.parseLong(body.get("amount")) * 100,
                 LocalDateTime.now().minusHours(6));
         paymentRepository.save(payment);
 
@@ -41,7 +41,7 @@ public class PaymentController {
         String token = body.get("stripeToken");
 
         Map<String, Object> params = new HashMap<>();
-        params.put("amount", payment.getAmount() * 100);
+        params.put("amount", payment.getAmount());
         params.put("currency", "usd");
         params.put("description", "Rent Payment");
         params.put("source", token);
