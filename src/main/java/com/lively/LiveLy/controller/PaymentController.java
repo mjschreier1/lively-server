@@ -2,6 +2,7 @@ package com.lively.LiveLy.controller;
 
 import com.lively.LiveLy.model.DeleteAllPaymentsResponse;
 import com.lively.LiveLy.model.Payment;
+import com.lively.LiveLy.model.User;
 import com.lively.LiveLy.repo.PaymentRepository;
 import com.lively.LiveLy.repo.UserRepository;
 import com.stripe.Stripe;
@@ -28,6 +29,33 @@ public class PaymentController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping("/payment")
+    public Iterable<Payment> getPaymentsByDates(
+            @RequestParam("minYear") int minYear,
+            @RequestParam("minMonth") int minMonth,
+            @RequestParam("minDate") int minDate,
+            @RequestParam("maxYear") int maxYear,
+            @RequestParam("maxMonth") int maxMonth,
+            @RequestParam("maxDate") int maxDate) {
+        LocalDateTime min = LocalDateTime.of(minYear, minMonth, minDate, 0, 0).minusHours(6);
+        LocalDateTime max = LocalDateTime.of(maxYear, maxMonth, maxDate, 0, 0).minusHours(6);
+
+        Iterable<Payment> matchingPayments = paymentRepository.findBySubmittedOnBetween(min, max);
+
+        // removes user PIN from response
+        for (Payment payment:matchingPayments) {
+            payment.setUser(new User(
+                    payment.getUser().getFirst(),
+                    payment.getUser().getLast(),
+                    0,
+                    payment.getUser().isAdmin(),
+                    payment.getUser().getEmail()
+            ));
+        }
+
+        return matchingPayments;
+    }
 
     @PostMapping("/payment")
     public ResponseEntity<Payment> submitPayment(@RequestBody Map<String, String> body) {
