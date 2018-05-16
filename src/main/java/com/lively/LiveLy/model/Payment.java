@@ -20,6 +20,9 @@ public class Payment {
     @Column(name = "submittedOn")
     private LocalDateTime submittedOn;
 
+    @Column(name = "successful")
+    private boolean successful;
+
     protected Payment() {
 
     }
@@ -56,5 +59,13 @@ public class Payment {
 
     public void setSubmittedOn(LocalDateTime submittedOn) {
         this.submittedOn = submittedOn;
+    }
+
+    public boolean isSuccessful() {
+        return successful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        this.successful = successful;
     }
 }

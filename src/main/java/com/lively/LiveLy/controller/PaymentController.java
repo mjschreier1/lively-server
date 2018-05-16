@@ -1,5 +1,6 @@
 package com.lively.LiveLy.controller;
 
+import com.lively.LiveLy.model.DeleteAllPaymentsResponse;
 import com.lively.LiveLy.model.Payment;
 import com.lively.LiveLy.repo.PaymentRepository;
 import com.lively.LiveLy.repo.UserRepository;
@@ -7,10 +8,9 @@ import com.stripe.Stripe;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -30,27 +30,37 @@ public class PaymentController {
     private UserRepository userRepository;
 
     @PostMapping("/payment")
-    public Payment submitPayment(@RequestBody Map<String, String> body) {
+    public ResponseEntity<Payment> submitPayment(@RequestBody Map<String, String> body) {
         Payment payment = new Payment(
                 userRepository.findById(Integer.parseInt(body.get("id"))),
                 Float.parseFloat(body.get("amount")),
-                LocalDateTime.now());
+                LocalDateTime.now().minusHours(6));
         paymentRepository.save(payment);
 
         Stripe.apiKey = System.getenv("STRIPE_KEY");
-
         String token = body.get("stripeToken");
 
         Map<String, Object> params = new HashMap<>();
-        params.put("amount", 999);
+        params.put("amount", payment.getAmount() * 100);
         params.put("currency", "usd");
-        params.put("description", "Example charge");
+        params.put("description", "Rent Payment");
         params.put("source", token);
         try {
             Charge charge = Charge.create(params);
+            payment.setSuccessful(true);
+            paymentRepository.save(payment);
         } catch (Exception err) {
             System.out.println(err);
+            payment.setSuccessful(false);
+            paymentRepository.save(payment);
+            return new ResponseEntity<Payment>(payment, HttpStatus.BAD_REQUEST);
         }
-        return payment;
+        return new ResponseEntity<Payment>(payment, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/payment/all")
+    public DeleteAllPaymentsResponse deleteAllPayments() {
+        paymentRepository.deleteAll();
+        return new DeleteAllPaymentsResponse(200, "OK");
     }
 }
