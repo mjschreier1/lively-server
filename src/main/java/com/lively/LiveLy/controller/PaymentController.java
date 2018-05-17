@@ -57,6 +57,25 @@ public class PaymentController {
         return matchingPayments;
     }
 
+    @GetMapping("/payment/{last}/{email}")
+    public Iterable<Payment> getPaymentsByResident(@PathVariable("last") String last, @PathVariable("email") String email) {
+        User resident = userRepository.findByLastAndEmail(last, email);
+        Iterable<Payment> payments = paymentRepository.findByUser(resident);
+
+        //removes user PIN from response
+        for (Payment payment:payments) {
+            payment.setUser(new User(
+                    payment.getUser().getFirst(),
+                    payment.getUser().getLast(),
+                    0,
+                    payment.getUser().isAdmin(),
+                    payment.getUser().getEmail()
+            ));
+        }
+
+        return payments;
+    }
+
     @PostMapping("/payment")
     public ResponseEntity<Payment> submitPayment(@RequestBody Map<String, String> body) {
         Payment payment = new Payment(
@@ -64,6 +83,15 @@ public class PaymentController {
                 Long.parseLong(body.get("amount")),
                 LocalDateTime.now().minusHours(6));
         paymentRepository.save(payment);
+
+        // removes user PIN from response
+        payment.setUser(new User(
+                payment.getUser().getFirst(),
+                payment.getUser().getLast(),
+                0,
+                payment.getUser().isAdmin(),
+                payment.getUser().getEmail()
+        ));
 
         Stripe.apiKey = System.getenv("STRIPE_KEY");
         String token = body.get("stripeToken");
