@@ -43,9 +43,6 @@ public class PaymentController {
 
         Iterable<Payment> matchingPayments = paymentRepository.findBySubmittedOnBetween(min, max);
 
-        System.out.println(min);
-        System.out.println(max);
-
         // removes user PIN from response
         for (Payment payment:matchingPayments) {
             payment.setUser(new User(
@@ -64,7 +61,7 @@ public class PaymentController {
     public ResponseEntity<Payment> submitPayment(@RequestBody Map<String, String> body) {
         Payment payment = new Payment(
                 userRepository.findById(Integer.parseInt(body.get("id"))),
-                Long.parseLong(body.get("amount")) * 100,
+                Long.parseLong(body.get("amount")),
                 LocalDateTime.now().minusHours(6));
         paymentRepository.save(payment);
 
