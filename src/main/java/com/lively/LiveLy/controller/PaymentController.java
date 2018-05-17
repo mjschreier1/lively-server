@@ -84,15 +84,6 @@ public class PaymentController {
                 LocalDateTime.now().minusHours(6));
         paymentRepository.save(payment);
 
-        // removes user PIN from response
-        payment.setUser(new User(
-                payment.getUser().getFirst(),
-                payment.getUser().getLast(),
-                0,
-                payment.getUser().isAdmin(),
-                payment.getUser().getEmail()
-        ));
-
         Stripe.apiKey = System.getenv("STRIPE_KEY");
         String token = body.get("stripeToken");
 
@@ -105,10 +96,28 @@ public class PaymentController {
             Charge charge = Charge.create(params);
             payment.setSuccessful(true);
             paymentRepository.save(payment);
+
+            // removes user PIN from response
+            payment.setUser(new User(
+                    payment.getUser().getFirst(),
+                    payment.getUser().getLast(),
+                    0,
+                    payment.getUser().isAdmin(),
+                    payment.getUser().getEmail()
+            ));
         } catch (Exception err) {
             System.out.println(err);
             payment.setSuccessful(false);
             paymentRepository.save(payment);
+
+            // removes user PIN from response
+            payment.setUser(new User(
+                    payment.getUser().getFirst(),
+                    payment.getUser().getLast(),
+                    0,
+                    payment.getUser().isAdmin(),
+                    payment.getUser().getEmail()
+            ));
             return new ResponseEntity<Payment>(payment, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Payment>(payment, HttpStatus.OK);
